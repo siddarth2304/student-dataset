@@ -23,9 +23,9 @@ textarea{width:100%;height:330px;resize:vertical;padding:14px;border:1px solid #
 <main>
 <div class="grid">
 <section class="card"><h2>▦ Dataset Preview</h2><div class="table-wrap"><table><thead><tr><th>Name</th><th>Class</th><th>Maths</th><th>Science</th><th>English</th><th>StudyHours</th><th>Attendance</th></tr></thead><tbody id="rows"></tbody></table></div></section>
-<section class="card"><h2>⇩ Get the CSV Data</h2><div class="actions"><button class="copy" id="copy">▢ Copy CSV</button><button class="download" id="download">⇩ Download CSV<br><small>(filename.csv)</small></button></div><textarea id="csv" readonly aria-label="CSV data"></textarea><div id="status" aria-live="polite"></div></section>
+<section class="card"><h2>⇩ Get the CSV Data</h2><div class="actions"><button class="copy" id="copy">▢ Copy CSV</button><button class="download" id="download">⇩ Download CSV<br><small>(student_details.csv)</small></button></div><textarea id="csv" readonly aria-label="CSV data"></textarea><div id="status" aria-live="polite"></div></section>
 </div>
-<section class="card how"><h2>⚙ How to Use</h2><div class="steps"><div class="step"><div class="num">1</div><div><h3>Copy or Download</h3><p>Click the “Copy CSV” button or “Download CSV” button.</p></div></div><div class="step"><div class="num">2</div><div><h3>Paste or Save</h3><p>If you copied, paste it into a text editor (e.g., Notepad or VS Code).</p></div></div><div class="step"><div class="num">3</div><div><h3>Save as CSV</h3><p>Save the file with the name <strong>filename.csv</strong>.</p></div></div></div></section>
+<section class="card how"><h2>⚙ How to Use</h2><div class="steps"><div class="step"><div class="num">1</div><div><h3>Copy or Download</h3><p>Click the “Copy CSV” button or “Download CSV” button.</p></div></div><div class="step"><div class="num">2</div><div><h3>Paste or Save</h3><p>If you copied, paste it into a text editor (e.g., Notepad or VS Code).</p></div></div><div class="step"><div class="num">3</div><div><h3>Save as CSV</h3><p>Save the file with the name <strong>student_details.csv</strong>.</p></div></div></div></section>
 </main>
 <script>
 const csv = `Name,Class,Maths,Science,English,StudyHours,Attendance
@@ -49,7 +49,7 @@ document.getElementById('copy').addEventListener('click',async()=>{
 });
 document.getElementById('download').addEventListener('click',()=>{
  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
- const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='filename.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='student_details.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
 });
 </script>
 </body>
