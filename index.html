@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student Performance Dataset</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#14213d;background:#f5f8fc}
+*{box-sizing:border-box}body{margin:0}.hero{padding:36px 5vw;background:#edf5ff;border-bottom:1px solid #dce8f6}
+.hero-inner{max-width:1200px;margin:auto;display:flex;align-items:center;gap:20px}.icon{font-size:48px}.hero h1{font-size:clamp(28px,4vw,46px);margin:0}.hero p{color:#53657f;margin:8px 0 0;font-size:18px}
+main{max-width:1200px;margin:28px auto;padding:0 20px}.grid{display:grid;grid-template-columns:1.25fr 1fr;gap:20px}
+.card{background:white;border:1px solid #dce5ef;border-radius:16px;padding:22px;box-shadow:0 5px 18px #14213d0a}
+h2{font-size:22px;margin:0 0 18px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th,td{padding:11px 12px;text-align:left;border:1px solid #dce5ef}th{background:#edf5ff}tbody tr:nth-child(even){background:#f8fafc}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}button{border:0;border-radius:10px;padding:16px 12px;color:white;font-weight:700;font-size:16px;cursor:pointer}button:hover{filter:brightness(.95)}.copy{background:#2563eb}.download{background:#13834c}
+textarea{width:100%;height:330px;resize:vertical;padding:14px;border:1px solid #dce5ef;border-radius:10px;background:#f8fafc;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;color:#172033}
+.how{margin-top:22px;background:#f2fbf5}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.step{display:flex;gap:14px}.num{flex:0 0 38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#dbeafe;color:#1d4ed8;font-weight:800}.step h3{margin:2px 0 6px;font-size:16px}.step p{margin:0;color:#53657f;line-height:1.5}
+#status{min-height:20px;color:#13834c;font-size:14px;margin-top:8px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.steps{grid-template-columns:1fr}.hero-inner{align-items:flex-start}.actions{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header class="hero"><div class="hero-inner"><div class="icon" aria-hidden="true">📄</div><div><h1>Student Performance Dataset</h1><p>Copy or download the CSV data for your lab exercise.</p></div></div></header>
+<main>
+<div class="grid">
+<section class="card"><h2>▦ Dataset Preview</h2><div class="table-wrap"><table><thead><tr><th>Name</th><th>Class</th><th>Maths</th><th>Science</th><th>English</th><th>StudyHours</th><th>Attendance</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<section class="card"><h2>⇩ Get the CSV Data</h2><div class="actions"><button class="copy" id="copy">▢ Copy CSV</button><button class="download" id="download">⇩ Download CSV<br><small>(filename.csv)</small></button></div><textarea id="csv" readonly aria-label="CSV data"></textarea><div id="status" aria-live="polite"></div></section>
+</div>
+<section class="card how"><h2>⚙ How to Use</h2><div class="steps"><div class="step"><div class="num">1</div><div><h3>Copy or Download</h3><p>Click the “Copy CSV” button or “Download CSV” button.</p></div></div><div class="step"><div class="num">2</div><div><h3>Paste or Save</h3><p>If you copied, paste it into a text editor (e.g., Notepad or VS Code).</p></div></div><div class="step"><div class="num">3</div><div><h3>Save as CSV</h3><p>Save the file with the name <strong>filename.csv</strong>.</p></div></div></div></section>
+</main>
+<script>
+const csv = `Name,Class,Maths,Science,English,StudyHours,Attendance
+Priya,A,85,78,88,4,92
+Ramesh,A,62,70,65,2,81
+Lakshmi,A,91,88,94,5,95
+Arjun,A,74,69,72,3,87
+Sneha,B,88,92,85,5,96
+Rahul,B,55,61,58,1,72
+Anita,B,76,80,79,3,89
+Kiran,B,68,65,70,2,80
+Vijay,C,45,52,49,1,68
+Meena,C,82,85,88,4,91`;
+document.getElementById('csv').value=csv;
+const lines=csv.split('\\n');
+document.getElementById('rows').innerHTML=lines.slice(1).map(line=>'<tr>'+line.split(',').map(value=>'<td>'+value+'</td>').join('')+'</tr>').join('');
+document.getElementById('copy').addEventListener('click',async()=>{
+ const status=document.getElementById('status');
+ try{await navigator.clipboard.writeText(csv);status.textContent='CSV copied! Paste it into your text editor.'}
+ catch(e){const box=document.getElementById('csv');box.focus();box.select();status.textContent='Clipboard access was blocked. Press Ctrl+C to copy the selected text.'}
+});
+document.getElementById('download').addEventListener('click',()=>{
+ const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='filename.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>
